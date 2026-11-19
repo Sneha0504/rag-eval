@@ -1,7 +1,8 @@
 """Groundedness evaluation (LLM-as-judge) over generated answers, plus a
 20-row manual spot-check CSV template.
 
-The judge only runs when ANTHROPIC_API_KEY is set. Without a key:
+The judge only runs when an API key is set for the selected LLM provider
+(default: Google Gemini's free tier; see config.py). Without a key:
   * the spot-check template is still written,
   * groundedness results are marked as requiring a key (no fabricated scores).
 """
@@ -10,10 +11,11 @@ from __future__ import annotations
 import csv
 import json
 import logging
+import time
 from datetime import datetime, timezone
 
 import config
-from src import evaluate, generate, retrieve
+from src import evaluate, generate, llm_client, retrieve
 
 logger = logging.getLogger("judge")
 
@@ -25,8 +27,9 @@ def _judge_prompt(question: str, answer: str, context: str) -> str:
         "You are grading whether an ANSWER is grounded in the provided CONTEXT.\n"
         "Grounded means every claim in the answer is supported by the context.\n\n"
         f"QUESTION: {question}\n\nCONTEXT:\n{context}\n\nANSWER:\n{answer}\n\n"
-        "Reply with a single JSON object: "
-        '{"grounded": true|false, "score": 0-1 float, "reason": "..."}'
+        "Reply with ONLY a single JSON object and nothing else (no preamble, no "
+        'reasoning outside it): {"grounded": true|false, "score": 0-1 float, '
+        '"reason": "one short sentence"}'
     )
 
 
@@ -63,6 +66,7 @@ def run() -> dict:
     judged = []
     key_present = config.has_api_key()
     total_cost = 0.0
+    failures = 0
 
     for item in sample_items:
         res = retrieve.retrieve(item["question"], strategy, k=5)
@@ -78,20 +82,13 @@ def run() -> dict:
                 row["generated_answer"] = gen["answer"]
                 total_cost += gen["cost_usd"]
                 context = "\n\n".join(f"[{h['chunk_id']}] {h['text']}" for h in res["hits"])
-                import anthropic
-
-                client = anthropic.Anthropic()
-                jresp = client.messages.create(
-                    model=config.LLM_MODEL,
-                    max_tokens=300,
-                    messages=[{"role": "user",
-                               "content": _judge_prompt(item["question"], gen["answer"], context)}],
+                jres = llm_client.chat(
+                    user=_judge_prompt(item["question"], gen["answer"], context),
+                    max_tokens=1024,
+                    response_format={"type": "json_object"},
                 )
-                jtext = "".join(b.text for b in jresp.content if getattr(b, "type", "") == "text")
-                total_cost += (
-                    jresp.usage.input_tokens / 1e6 * config.LLM_PRICE_INPUT_PER_MTOK
-                    + jresp.usage.output_tokens / 1e6 * config.LLM_PRICE_OUTPUT_PER_MTOK
-                )
+                jtext = jres["text"]
+                total_cost += jres["cost_usd"]
                 try:
                     verdict = json.loads(jtext[jtext.find("{"): jtext.rfind("}") + 1])
                 except Exception:
@@ -100,6 +97,14 @@ def run() -> dict:
             except generate.NoApiKeyError as exc:
                 key_present = False
                 logger.warning("Generation unavailable: %s", exc)
+            except Exception as exc:  # transient API error (429/503/timeout etc.)
+                failures += 1
+                logger.warning(
+                    "LLM call failed for %s after retries (%s); skipping this "
+                    "item and continuing.", item["id"], type(exc).__name__
+                )
+            if config.LLM_REQUEST_PAUSE_S:
+                time.sleep(config.LLM_REQUEST_PAUSE_S)
         spot_rows.append(row)
 
     write_spotcheck_template(spot_rows)
@@ -107,25 +112,64 @@ def run() -> dict:
     if key_present and judged:
         scores = [j["score"] for j in judged if isinstance(j.get("score"), (int, float))]
         grounded = [j for j in judged if j.get("grounded") is True]
+        cost_note = (
+            f"Provider '{config.LLM_PROVIDER}' is a $0 free tier, so cost/query "
+            f"is $0 even though real token usage was recorded."
+            if config.LLM_IS_FREE_TIER else
+            "Cost is computed from the real token counts returned by the API."
+        )
         summary = {
             "status": "ran",
+            "provider": config.LLM_PROVIDER,
+            "free_tier": config.LLM_IS_FREE_TIER,
             "model": config.LLM_MODEL,
             "n_judged": len(judged),
+            "n_failed": failures,
+            "sample_size": len(sample_items),
             "grounded_rate": round(len(grounded) / len(judged), 4) if judged else None,
             "mean_groundedness_score": round(sum(scores) / len(scores), 4) if scores else None,
             "llm_cost_usd_total": round(total_cost, 6),
             "llm_cost_usd_per_query": round(total_cost / len(judged), 6) if judged else None,
+            "cost_note": cost_note,
             "per_item": judged,
         }
+        if failures:
+            summary["note"] = (
+                f"{failures} of {len(sample_items)} items were skipped after the "
+                f"provider returned repeated transient errors (e.g. 429/503); the "
+                f"rates above are over the {len(judged)} items that succeeded."
+            )
+    elif key_present and failures:
+        # Key was set but every call failed (provider overloaded / transient).
+        # Do NOT claim 'requires_api_key' and do NOT fabricate any scores.
+        summary = {
+            "status": "error",
+            "provider": config.LLM_PROVIDER,
+            "model": config.LLM_MODEL,
+            "n_judged": 0,
+            "n_failed": failures,
+            "sample_size": len(sample_items),
+            "message": (
+                f"All {failures} LLM calls failed after retries (provider "
+                f"'{config.LLM_PROVIDER}' returned transient errors such as "
+                f"429/503). No groundedness scores are reported (none fabricated). "
+                f"Re-run when the provider is available: "
+                f"`.venv/bin/python -m src.judge`."
+            ),
+        }
     else:
+        key_hint = config.api_key_env_hint()
         summary = {
             "status": "requires_api_key",
+            "provider": config.LLM_PROVIDER,
             "message": (
-                "Groundedness (LLM-as-judge) and answer generation require "
-                "ANTHROPIC_API_KEY. Set it and re-run: "
-                "`.venv/bin/python -m src.judge`. No groundedness numbers are "
-                "fabricated. The 20-row spot-check template was still written to "
-                "results/spotcheck_template.csv for manual review."
+                f"Groundedness (LLM-as-judge) and answer generation require an "
+                f"API key for provider '{config.LLM_PROVIDER}'. Set {key_hint} "
+                f"(or LLM_API_KEY) and re-run: `.venv/bin/python -m src.judge`. "
+                f"The default provider is Gemini's free tier "
+                f"(`export GEMINI_API_KEY=...`). No groundedness numbers are "
+                f"fabricated. The 20-row spot-check template was still written to "
+                f"results/spotcheck_template.csv for manual review."
             ),
             "model": config.LLM_MODEL,
             "sample_size": len(sample_items),

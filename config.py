@@ -109,15 +109,156 @@ TOP_K = max(K_VALUES)
 # --------------------------------------------------------------------------
 # LLM (answer generation + judge) -- only used when a key is present
 # --------------------------------------------------------------------------
-LLM_MODEL = "claude-haiku-5-5"
-# Published price for claude-haiku-5-5 (USD per 1M tokens): $0.10 in / $0.50 out.
-LLM_PRICE_INPUT_PER_MTOK = 0.10
-LLM_PRICE_OUTPUT_PER_MTOK = 0.50
+# Provider-agnostic LLM settings driven entirely by environment variables so the
+# answer generator (src/generate.py) and the groundedness judge (src/judge.py)
+# can target any of several back ends without touching the retrieval layer.
+#
+#   LLM_PROVIDER  one of: "gemini" (default), "groq", "anthropic", "openai", "custom"
+#
+# The default is Google Gemini's FREE tier, reached through its OpenAI-compatible
+# endpoint with the `openai` SDK, so a working run costs nothing. The Anthropic
+# path is still selectable for parity with the original design.
+#
+# Per-field overrides (take precedence over the provider preset):
+#   LLM_MODEL, LLM_BASE_URL, LLM_API_KEY,
+#   LLM_PRICE_INPUT_PER_MTOK, LLM_PRICE_OUTPUT_PER_MTOK
 ANTHROPIC_API_KEY_ENV = "ANTHROPIC_API_KEY"
+
+PROVIDER_GEMINI = "gemini"
+PROVIDER_GROQ = "groq"
+PROVIDER_ANTHROPIC = "anthropic"
+PROVIDER_OPENAI = "openai"
+PROVIDER_CUSTOM = "custom"
+
+# Each preset: which SDK ("openai" vs "anthropic"), base_url, default model,
+# the ordered env vars checked for a key, whether it is a $0 free tier, and the
+# default published price (USD per 1M tokens) used only to compute real cost from
+# real token counts. The Gemini Flash free tier is $0, so its price is 0.0 and a
+# keyed run honestly reports $0/query -- no token counts are ever fabricated.
+_PROVIDER_PRESETS = {
+    PROVIDER_GEMINI: {
+        "sdk": "openai",
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+        # A self-updating alias: stays valid as specific versions retire (avoids
+        # the 404s that pinned, now-removed versions cause). Override with
+        # LLM_MODEL to pin a specific one, e.g. gemini-2.5-flash.
+        "model": "gemini-flash-latest",
+        "key_envs": ("GEMINI_API_KEY", "OPENAI_API_KEY", "LLM_API_KEY"),
+        "free_tier": True,
+        "price_input_per_mtok": 0.0,
+        "price_output_per_mtok": 0.0,
+    },
+    PROVIDER_GROQ: {
+        "sdk": "openai",
+        "base_url": "https://api.groq.com/openai/v1",
+        # A general-purpose chat model on Groq's free tier. Model availability
+        # changes over time; override with LLM_MODEL, and list what your key can
+        # use via GET https://api.groq.com/openai/v1/models.
+        "model": "openai/gpt-oss-120b",
+        "key_envs": ("GROQ_API_KEY", "LLM_API_KEY"),
+        "free_tier": True,
+        "price_input_per_mtok": 0.0,
+        "price_output_per_mtok": 0.0,
+    },
+    PROVIDER_ANTHROPIC: {
+        "sdk": "anthropic",
+        "base_url": None,  # the Anthropic SDK uses its own default endpoint
+        "model": "claude-haiku-5-5",
+        "key_envs": (ANTHROPIC_API_KEY_ENV, "LLM_API_KEY"),
+        "free_tier": False,
+        # Published price for claude-haiku-5-5: $0.10 in / $0.50 out per 1M tokens.
+        "price_input_per_mtok": 0.10,
+        "price_output_per_mtok": 0.50,
+    },
+    PROVIDER_OPENAI: {
+        "sdk": "openai",
+        "base_url": "https://api.openai.com/v1/",
+        "model": "gpt-4o-mini",
+        "key_envs": ("OPENAI_API_KEY", "LLM_API_KEY"),
+        "free_tier": False,
+        # Price unknown by default; set LLM_PRICE_* to report real cost.
+        "price_input_per_mtok": 0.0,
+        "price_output_per_mtok": 0.0,
+    },
+    PROVIDER_CUSTOM: {
+        "sdk": "openai",
+        "base_url": None,  # must be supplied via LLM_BASE_URL
+        "model": "",       # must be supplied via LLM_MODEL
+        "key_envs": ("LLM_API_KEY", "OPENAI_API_KEY"),
+        "free_tier": False,
+        "price_input_per_mtok": 0.0,
+        "price_output_per_mtok": 0.0,
+    },
+}
+
+
+def _env(name: str) -> str:
+    return os.environ.get(name, "").strip()
+
+
+LLM_PROVIDER = (_env("LLM_PROVIDER") or PROVIDER_GEMINI).lower()
+_PRESET = _PROVIDER_PRESETS.get(LLM_PROVIDER, _PROVIDER_PRESETS[PROVIDER_CUSTOM])
+
+LLM_SDK = _PRESET["sdk"]
+LLM_BASE_URL = _env("LLM_BASE_URL") or _PRESET["base_url"]
+LLM_MODEL = _env("LLM_MODEL") or _PRESET["model"]
+LLM_IS_FREE_TIER = _PRESET["free_tier"]
+LLM_API_KEY_ENVS = _PRESET["key_envs"]
+
+
+def _float_env(name: str, default: float) -> float:
+    raw = _env(name)
+    if not raw:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        return default
+
+
+LLM_PRICE_INPUT_PER_MTOK = _float_env(
+    "LLM_PRICE_INPUT_PER_MTOK", _PRESET["price_input_per_mtok"]
+)
+LLM_PRICE_OUTPUT_PER_MTOK = _float_env(
+    "LLM_PRICE_OUTPUT_PER_MTOK", _PRESET["price_output_per_mtok"]
+)
+
+# Resilience for flaky free tiers (Gemini free tier often returns 429/503).
+# The SDK retries with exponential backoff; a small pause between calls also
+# reduces overload. All overridable via env.
+LLM_MAX_RETRIES = int(_float_env("LLM_MAX_RETRIES", 6))
+LLM_TIMEOUT_S = _float_env("LLM_TIMEOUT_S", 60.0)
+LLM_REQUEST_PAUSE_S = _float_env("LLM_REQUEST_PAUSE_S", 0.5)
+# Client-side rate limit: minimum seconds between consecutive LLM calls, to stay
+# under a free tier's requests-per-minute cap and avoid 429s in the first place.
+# 0 = disabled. e.g. 4.0 => ~15 calls/min; 2.0 => ~30 calls/min.
+LLM_MIN_REQUEST_INTERVAL_S = _float_env("LLM_MIN_REQUEST_INTERVAL_S", 0.0)
+
+
+def resolve_api_key() -> str:
+    """Return the API key for the selected provider, or '' if none is set.
+
+    LLM_API_KEY is always honoured as a generic override; otherwise the
+    provider's own env vars are checked in order (e.g. GEMINI_API_KEY first for
+    the default Gemini free tier).
+    """
+    explicit = _env("LLM_API_KEY")
+    if explicit:
+        return explicit
+    for env in LLM_API_KEY_ENVS:
+        val = _env(env)
+        if val:
+            return val
+    return ""
 
 
 def has_api_key() -> bool:
-    return bool(os.environ.get(ANTHROPIC_API_KEY_ENV, "").strip())
+    return bool(resolve_api_key())
+
+
+def api_key_env_hint() -> str:
+    """Human-readable name of the env var the user should set for this provider."""
+    return LLM_API_KEY_ENVS[0] if LLM_API_KEY_ENVS else "LLM_API_KEY"
 
 
 def ensure_dirs() -> None:

@@ -94,7 +94,8 @@ def evaluate_strategy(strategy: str, golden: list[dict]) -> dict:
         "cost_usd_per_query": 0.0,
         "cost_note": "Retrieval uses a local sentence-transformers model; no API "
                      "cost per query. LLM answer/judge cost is reported separately "
-                     "and only when ANTHROPIC_API_KEY is set.",
+                     "and only when an LLM API key is set (default provider: "
+                     "Gemini free tier, $0).",
         "misses": [pq for pq in per_query if pq["first_hit_rank"] is None],
         "per_query": per_query,
     }

@@ -34,7 +34,7 @@ data/processed/documents.json  +  results/ingestion_report.json (+ ingestion.log
    ▼                     per strategy, cosine space, deterministic order)
 Chroma persistent store (data/chroma/)
    │  src/retrieve.py    top-k similarity + metadata filtering (status/type/PEP)
-   │  src/generate.py    cited answer via Anthropic API (key-gated)
+   │  src/generate.py    cited answer via a pluggable LLM provider (key-gated)
    ▼
    │  src/evaluate.py    hit@k, MRR, latency, cost over data/golden_set.json
    │  src/judge.py       LLM-as-judge groundedness + 20-row spot-check (key-gated)
@@ -57,8 +57,10 @@ results/*.json  +  app/streamlit_app.py (dashboard)
 - **Embeddings = `sentence-transformers/all-MiniLM-L6-v2`.** Small, fast, reliable, 384-dim,
   CPU-friendly. Embeddings are L2-normalised and stored in Chroma with cosine space.
 - **Offline-honest.** Retrieval metrics (hit@k, MRR, latency) run fully offline.
-  Answer generation and groundedness use the Anthropic API only when a key is
-  present and degrade gracefully otherwise, so no README figure is fabricated.
+  Answer generation and groundedness call a pluggable LLM provider (default:
+  Google Gemini's **free** tier via its OpenAI-compatible endpoint; Anthropic
+  and other OpenAI-compatible back ends are selectable) only when a key is
+  present, and degrade gracefully otherwise, so no README figure is fabricated.
 - **Determinism.** Fixed seed (`42`) in `config.py`, chunks sorted by a
   stable `chunk_id` before indexing, all dependencies pinned in `requirements.txt`.
 
@@ -88,12 +90,12 @@ k = [1, 3, 5, 10]. Evaluated over 50 golden questions per strategy.
 
 | Strategy | Indexed chunks | hit@1 | hit@3 | hit@5 | hit@10 | MRR | median latency (ms) | p95 latency (ms) | cost/query ($) | misses |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| fixed | 8301 | 0.54 | 0.7 | 0.74 | 0.84 | 0.6288 | 4.976 | 7.865 | 0.0 | 8 |
-| section | 15119 | 0.4 | 0.62 | 0.7 | 0.74 | 0.5136 | 6.451 | 10.17 | 0.0 | 13 |
+| fixed | 8301 | 0.54 | 0.7 | 0.74 | 0.84 | 0.6288 | 7.347 | 19.177 | 0.0 | 8 |
+| section | 15119 | 0.4 | 0.62 | 0.7 | 0.74 | 0.5136 | 7.545 | 12.209 | 0.0 | 13 |
 
 ### Verdict
 
-> Winner: fixed chunking. It scores MRR 0.6288 vs 0.5136 and hit_rate@5 0.74 vs 0.7. Median Chroma-search latency 4.976 ms vs 6.451 ms. Why: section-aware chunking indexed 15119 chunks but its data quality is weaker -- 844 exact-duplicate and 112 empty chunks were flagged (empties dropped before indexing); many remaining chunks are tiny header-only fragments (Abstract, Copyright, References) that dilute the top-k and split a PEP's content across many small vectors. Fixed-size chunking indexed 8301 denser 2000-char windows (0 duplicate, 1 empty), so each chunk carries more context and matches the question topic more reliably -- hence the higher MRR and hit@k.
+> Winner: fixed chunking. It scores MRR 0.6288 vs 0.5136 and hit_rate@5 0.74 vs 0.7. Median Chroma-search latency 7.347 ms vs 7.545 ms. Why: section-aware chunking indexed 15119 chunks but its data quality is weaker -- 844 exact-duplicate and 112 empty chunks were flagged (empties dropped before indexing); many remaining chunks are tiny header-only fragments (Abstract, Copyright, References) that dilute the top-k and split a PEP's content across many small vectors. Fixed-size chunking indexed 8301 denser 2000-char windows (0 duplicate, 1 empty), so each chunk carries more context and matches the question topic more reliably -- hence the higher MRR and hit@k.
 
 The verdict above (and its cause) is copied verbatim from
 `results/eval_comparison.json`. The table above is the real, reproducible
@@ -140,14 +142,11 @@ verdict above).
 
 ## Groundedness (LLM-as-judge)
 
-**Status: requires `ANTHROPIC_API_KEY`.** Answer generation and the groundedness judge were not run in this build because no key was present, so no groundedness or cost numbers are reported here (none are fabricated). The 20-row manual spot-check template was still generated at `results/spotcheck_template.csv`.
+The LLM-as-judge ran on 20 generated answers using `openai/gpt-oss-20b` via provider `groq` (free tier -- $0 cost, real token usage still recorded).
 
-To produce real numbers:
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-.venv/bin/python -m src.judge
-```
+- Grounded rate: **0.75**
+- Mean groundedness score: **0.7425**
+- LLM cost/query: **$0.0** (total $0.0)
 
 
 ## How to run
@@ -166,9 +165,35 @@ make ingest       # parse + clean + data-quality report
 make golden       # (re)build the verified golden set
 make index        # chunk (both strategies) + embed + index in Chroma
 make evaluate     # retrieval metrics for both strategies
-make judge        # groundedness + spot-check (needs ANTHROPIC_API_KEY)
+make judge        # groundedness + spot-check (needs an LLM API key)
 make dashboard    # launch the Streamlit dashboard
 ```
+
+### LLM provider for answer generation + groundedness
+
+Generation and the judge use a pluggable provider, selected with env vars. The
+default is **Google Gemini's free tier** (OpenAI-compatible endpoint), so a full
+keyed run costs **$0**:
+
+```bash
+export GEMINI_API_KEY=...        # free key from Google AI Studio
+./run.sh                         # or: .venv/bin/python -m src.judge
+```
+
+| env var | purpose | default |
+| --- | --- | --- |
+| `LLM_PROVIDER` | `gemini`, `anthropic`, `openai`, or `custom` | `gemini` |
+| `GEMINI_API_KEY` | key for the default Gemini free tier | (unset) |
+| `ANTHROPIC_API_KEY` | key when `LLM_PROVIDER=anthropic` | (unset) |
+| `OPENAI_API_KEY` | key when `LLM_PROVIDER=openai` | (unset) |
+| `LLM_API_KEY` | generic key override (any provider) | (unset) |
+| `LLM_MODEL` | override the model | per provider |
+| `LLM_BASE_URL` | override the OpenAI-compatible endpoint | per provider |
+| `LLM_PRICE_INPUT_PER_MTOK` / `LLM_PRICE_OUTPUT_PER_MTOK` | price (USD / 1M tokens) for real cost | per provider |
+
+Gemini's free tier is priced at $0, so cost/query is reported as $0 while the
+real token usage returned by the API is still recorded. To keep the original
+Anthropic path: `export LLM_PROVIDER=anthropic ANTHROPIC_API_KEY=sk-ant-...`.
 
 Dashboard: `.venv/bin/streamlit run app/streamlit_app.py` -- shows the strategy
 comparison, DQ findings, per-query detail, and query volume/latency over time
@@ -184,7 +209,8 @@ src/ingest.py             parse + clean + metadata + data-quality checks
 src/chunking.py           fixed + section-aware chunking
 src/embed_index.py        embeddings -> Chroma (one collection per strategy)
 src/retrieve.py           top-k search + metadata filtering
-src/generate.py           cited answer generator (Anthropic, key-gated)
+src/generate.py           cited answer generator (pluggable LLM, key-gated)
+src/llm_client.py         provider-agnostic LLM call layer (Gemini/Anthropic/OpenAI)
 src/evaluate.py           hit@k, MRR, latency, cost + strategy comparison
 src/judge.py              LLM-as-judge groundedness + spot-check template
 src/monitor.py            per-query JSONL logging
@@ -205,8 +231,9 @@ results/                  real run outputs (committed)
   larger models; absolute hit rates would likely rise with a stronger encoder.
 - **Golden set is metadata- and content-anchored.** Questions reference real PEP
   topics; a different question distribution could shift the numbers.
-- **Groundedness needs a key.** Without `ANTHROPIC_API_KEY`, generation and the
-  judge are skipped (clearly marked), not estimated.
+- **Groundedness needs a key.** Without an LLM API key (default provider:
+  Gemini's free tier via `GEMINI_API_KEY`), generation and the judge are skipped
+  (clearly marked), not estimated.
 - **Near-duplicate detection is O(n^2)** over shingle sets; fine for ~750 docs,
   not for very large corpora.
 

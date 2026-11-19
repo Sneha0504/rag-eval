@@ -1,21 +1,47 @@
 eval_id,question,gold_pep,top_retrieved_pep,generated_answer,human_grounded_yes_no,human_answer_correct_yes_no,human_notes
-q001,What is the current status of the PEP that defines the style guide for Python code?,8,8,,,,
-q002,"Is the Zen of Python PEP active, final, or withdrawn?",20,620,,,,
-q003,What is the status of the Type Hints PEP?,484,482,,,,
-q004,What is the status of the PEP introducing assignment expressions (the walrus operator)?,572,572,,,,
-q005,What is the status of the PEP describing PEP purpose and guidelines?,1,480,,,,
-q006,What is the status of the Docstring Conventions PEP?,257,257,,,,
-q007,What is the status of the PEP that introduced the with statement?,343,262,,,,
-q008,What is the status of the PEP for type hinting generics in standard collections?,585,585,,,,
-q009,What is the status of the PEP allowing union types written with the pipe operator?,604,604,,,,
-q010,What is the status of the PEP adding async and await coroutine syntax?,492,525,,,,
-q011,What is the status of the Python Language Governance PEP?,13,8001,,,,
-q012,What is the status of the Python Database API Specification v2.0 PEP?,249,248,,,,
+q001,What is the current status of the PEP that defines the style guide for Python code?,8,8,"The provided context does not include any information about the current status of PEP 8.  
+Sources: []",,,
+q002,"Is the Zen of Python PEP active, final, or withdrawn?",20,620,"The provided context does not contain any information about the status of the Zen of Python PEP.  
+
+Sources: []",,,
+q003,What is the status of the Type Hints PEP?,484,482,"I’m sorry, but the provided context does not contain information about the current status of the Type Hints PEP.  
+
+Sources: []",,,
+q004,What is the status of the PEP introducing assignment expressions (the walrus operator)?,572,572,The provided context does not contain information about the status of PEP 572 (the walrus operator). Sources: [],,,
+q005,What is the status of the PEP describing PEP purpose and guidelines?,1,480,"I’m sorry, but the provided context does not contain any information about the status of PEP 1 (PEP Purpose and Guidelines).  
+
+Sources:",,,
+q006,What is the status of the Docstring Conventions PEP?,257,257,"The provided context does not contain any information about the current status (e.g., draft, accepted, withdrawn, etc.) of PEP 257 – the Docstring Conventions PEP.  
+
+Sources: [pep-0257::section::001::000] [pep-0257::section::000::000]",,,
+q007,What is the status of the PEP that introduced the with statement?,343,262,"The provided context does not contain information about the PEP that introduced the with statement.  
+
+Sources: []",,,
+q008,What is the status of the PEP for type hinting generics in standard collections?,585,585,"The provided context does not state the current status (e.g., approved, draft, or retired) of PEP 585 for type hinting generics in standard collections.
+
+Sources: [pep-0585::section::016::000] [pep-0585::section::004::000]",,,
+q009,What is the status of the PEP allowing union types written with the pipe operator?,604,604,"The provided context does not contain information about the current status (e.g., whether it has been accepted, rejected, or is under review) of PEP 604.
+
+Sources: []",,,
+q010,What is the status of the PEP adding async and await coroutine syntax?,492,525,"The provided context does not contain information about the status (e.g., approved, final, or draft) of the PEP that introduced the async and await syntax.  
+
+Sources: []",,,
+q011,What is the status of the Python Language Governance PEP?,13,8001,"The provided context does not contain information about the current status of the Python Language Governance PEP.
+
+Sources: []",,,
+q012,What is the status of the Python Database API Specification v2.0 PEP?,249,248,"The provided context does not contain any information about the status (e.g., accepted, draft, withdrawn) of the Python Database API Specification v2.0 PEP.  
+
+Sources: [pep-0249::section::021::000], [pep-0249::section::000::000]",,,
 q013,What PEP type is the Zen of Python classified as?,20,3117,,,,
-q014,What is the PEP type of the Simple Generators proposal?,255,255,,,,
+q014,What is the PEP type of the Simple Generators proposal?,255,255,"The context does not contain the answer.  
+
+Sources: [pep-0255::section::000::000]",,,
 q015,What PEP type is the Python Web Server Gateway Interface (WSGI) specification?,3333,444,,,,
-q016,What PEP type is the proposal for decorators for functions and methods?,318,3129,,,,
+q016,What PEP type is the proposal for decorators for functions and methods?,318,3129,"The provided context does not contain any explicit statement about the PEP type (e.g., “Implementation,” “Informational,” etc.) for the proposal that introduces decorators for functions and methods. The relevant excerpt only identifies the proposal as **PEP 318 – Decorators for",,,
 q017,What is the PEP type of the Protocols structural subtyping proposal?,544,544,,,,
-q018,What PEP type covers distributing and packaging type information?,561,721,,,,
-q019,What PEP type is the Style Guide for Python Code?,8,8,,,,
-q020,What PEP type is the build-system independent format for source trees?,517,517,,,,
+q018,What PEP type covers distributing and packaging type information?,561,721,PEP 825 covers,,,
+q019,What PEP type is the Style Guide for Python Code?,8,8,"The context does not contain the answer.  
+
+Sources: [pep-0008::section::000::000]",,,
+q020,What PEP type is the build-system independent format for source trees?,517,517,"The build‑system independent format for source trees is defined by **PEP 517** – “A build‑system independent format for source trees”.  
+Sources: [pep-0517::section::002::000]",,,

@@ -43,7 +43,13 @@ echo ">> [3/5] Chunking + embedding + indexing (both strategies)"
 echo ">> [4/5] Retrieval evaluation (both strategies)"
 "$PY" -m src.evaluate
 
-echo ">> Groundedness / spot-check (LLM judge runs only if ANTHROPIC_API_KEY is set)"
+# Answer generation + groundedness use a pluggable LLM provider (config.py).
+# Default: Google Gemini's FREE tier via its OpenAI-compatible endpoint.
+#   export GEMINI_API_KEY=...                 # free key from Google AI Studio
+#   export LLM_PROVIDER=anthropic ANTHROPIC_API_KEY=sk-ant-...   # original path
+#   export LLM_PROVIDER=openai OPENAI_API_KEY=sk-...             # OpenAI
+# With no key set, the judge still runs and honestly marks LLM parts key-required.
+echo ">> Groundedness / spot-check (LLM judge runs only if an API key is set; default provider = Gemini free tier)"
 "$PY" -m src.judge
 
 echo ">> [5/5] Rendering README.md + corpus provenance from the real results"

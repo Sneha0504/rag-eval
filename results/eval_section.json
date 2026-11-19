@@ -10,13 +10,13 @@
   },
   "mrr": 0.5136,
   "latency_ms": {
-    "median": 6.451,
-    "p95": 10.17,
-    "mean": 11.266
+    "median": 7.545,
+    "p95": 12.209,
+    "mean": 11.052
   },
   "latency_note": "Per-query latency measures the Chroma similarity search only (it excludes query-embedding time); it is wall-clock and so varies slightly run-to-run, unlike the deterministic hit-rate/MRR.",
   "cost_usd_per_query": 0.0,
-  "cost_note": "Retrieval uses a local sentence-transformers model; no API cost per query. LLM answer/judge cost is reported separately and only when ANTHROPIC_API_KEY is set.",
+  "cost_note": "Retrieval uses a local sentence-transformers model; no API cost per query. LLM answer/judge cost is reported separately and only when an LLM API key is set (default provider: Gemini free tier, $0).",
   "misses": [
     {
       "id": "q002",
@@ -49,7 +49,7 @@
         "pep-3117::section::001::000",
         "pep-0389::section::000::000"
       ],
-      "latency_ms": 7.7
+      "latency_ms": 9.069
     },
     {
       "id": "q003",
@@ -82,7 +82,7 @@
         "pep-0827::section::038::000",
         "pep-0563::section::004::000"
       ],
-      "latency_ms": 6.754
+      "latency_ms": 9.359
     },
     {
       "id": "q005",
@@ -115,7 +115,7 @@
         "pep-3114::section::006::000",
         "pep-3147::section::023::000"
       ],
-      "latency_ms": 7.998
+      "latency_ms": 11.608
     },
     {
       "id": "q007",
@@ -148,7 +148,7 @@
         "pep-0418::section::054::000",
         "pep-0567::section::025::000"
       ],
-      "latency_ms": 3.992
+      "latency_ms": 5.09
     },
     {
       "id": "q013",
@@ -181,7 +181,7 @@
         "pep-0240::section::006::000",
         "pep-0802::section::007::000"
       ],
-      "latency_ms": 6.025
+      "latency_ms": 7.073
     },
     {
       "id": "q023",
@@ -214,7 +214,7 @@
         "pep-0254::section::000::000",
         "pep-0013::section::022::000"
       ],
-      "latency_ms": 5.409
+      "latency_ms": 5.604
     },
     {
       "id": "q024",
@@ -247,7 +247,7 @@
         "pep-0687::section::000::000",
         "pep-0699::section::000::000"
       ],
-      "latency_ms": 5.843
+      "latency_ms": 3.013
     },
     {
       "id": "q025",
@@ -280,7 +280,7 @@
         "pep-0809::section::003::000",
         "pep-0346::section::001::000"
       ],
-      "latency_ms": 5.48
+      "latency_ms": 4.294
     },
     {
       "id": "q028",
@@ -313,7 +313,7 @@
         "pep-0453::section::001::000",
         "pep-0343::section::015::000"
       ],
-      "latency_ms": 5.301
+      "latency_ms": 3.238
     },
     {
       "id": "q030",
@@ -346,7 +346,7 @@
         "pep-0380::section::001::000",
         "pep-0820::section::029::000"
       ],
-      "latency_ms": 5.199
+      "latency_ms": 5.24
     },
     {
       "id": "q035",
@@ -379,7 +379,7 @@
         "pep-0563::section::003::000",
         "pep-0563::section::004::000"
       ],
-      "latency_ms": 5.048
+      "latency_ms": 3.819
     },
     {
       "id": "q041",
@@ -412,7 +412,7 @@
         "pep-0315::section::007::000",
         "pep-0786::section::015::000"
       ],
-      "latency_ms": 8.692
+      "latency_ms": 10.417
     },
     {
       "id": "q047",
@@ -445,7 +445,7 @@
         "pep-0346::section::041::000",
         "pep-0296::section::000::000"
       ],
-      "latency_ms": 7.784
+      "latency_ms": 6.687
     }
   ],
   "per_query": [
@@ -480,7 +480,7 @@
         "pep-0391::section::017::000",
         "pep-0007::section::001::000"
       ],
-      "latency_ms": 235.356
+      "latency_ms": 198.654
     },
     {
       "id": "q002",
@@ -513,7 +513,7 @@
         "pep-3117::section::001::000",
         "pep-0389::section::000::000"
       ],
-      "latency_ms": 7.7
+      "latency_ms": 9.069
     },
     {
       "id": "q003",
@@ -546,7 +546,7 @@
         "pep-0827::section::038::000",
         "pep-0563::section::004::000"
       ],
-      "latency_ms": 6.754
+      "latency_ms": 9.359
     },
     {
       "id": "q004",
@@ -579,7 +579,7 @@
         "pep-3133::section::003::000",
         "pep-0403::section::006::000"
       ],
-      "latency_ms": 6.238
+      "latency_ms": 7.506
     },
     {
       "id": "q005",
@@ -612,7 +612,7 @@
         "pep-3114::section::006::000",
         "pep-3147::section::023::000"
       ],
-      "latency_ms": 7.998
+      "latency_ms": 11.608
     },
     {
       "id": "q006",
@@ -645,7 +645,7 @@
         "pep-0100::section::000::000",
         "pep-0258::section::001::000"
       ],
-      "latency_ms": 5.467
+      "latency_ms": 10.88
     },
     {
       "id": "q007",
@@ -678,7 +678,7 @@
         "pep-0418::section::054::000",
         "pep-0567::section::025::000"
       ],
-      "latency_ms": 3.992
+      "latency_ms": 5.09
     },
     {
       "id": "q008",
@@ -711,7 +711,7 @@
         "pep-0695::section::001::000",
         "pep-0563::section::004::000"
       ],
-      "latency_ms": 4.459
+      "latency_ms": 4.674
     },
     {
       "id": "q009",
@@ -744,7 +744,7 @@
         "pep-0604::section::004::000",
         "pep-0645::section::002::000"
       ],
-      "latency_ms": 7.382
+      "latency_ms": 10.734
     },
     {
       "id": "q010",
@@ -777,7 +777,7 @@
         "pep-0550::section::008::000",
         "pep-0852::section::000::000"
       ],
-      "latency_ms": 7.713
+      "latency_ms": 8.272
     },
     {
       "id": "q011",
@@ -810,7 +810,7 @@
         "pep-8001::section::001::000",
         "pep-0389::section::000::000"
       ],
-      "latency_ms": 7.155
+      "latency_ms": 9.249
     },
     {
       "id": "q012",
@@ -843,7 +843,7 @@
         "pep-0509::section::024::000",
         "pep-0251::section::000::000"
       ],
-      "latency_ms": 6.736
+      "latency_ms": 9.074
     },
     {
       "id": "q013",
@@ -876,7 +876,7 @@
         "pep-0240::section::006::000",
         "pep-0802::section::007::000"
       ],
-      "latency_ms": 6.025
+      "latency_ms": 7.073
     },
     {
       "id": "q014",
@@ -909,7 +909,7 @@
         "pep-0828::section::004::000",
         "pep-0380::section::015::000"
       ],
-      "latency_ms": 8.19
+      "latency_ms": 7.701
     },
     {
       "id": "q015",
@@ -942,7 +942,7 @@
         "pep-0333::section::029::000",
         "pep-3333::section::003::000"
       ],
-      "latency_ms": 8.335
+      "latency_ms": 8.352
     },
     {
       "id": "q016",
@@ -975,7 +975,7 @@
         "pep-0487::section::015::000",
         "pep-3129::section::001::000"
       ],
-      "latency_ms": 7.902
+      "latency_ms": 6.054
     },
     {
       "id": "q017",
@@ -1008,7 +1008,7 @@
         "pep-0635::section::000::000",
         "pep-0750::section::044::000"
       ],
-      "latency_ms": 8.837
+      "latency_ms": 11.641
     },
     {
       "id": "q018",
@@ -1041,7 +1041,7 @@
         "pep-0561::section::004::000",
         "pep-0804::section::000::000"
       ],
-      "latency_ms": 9.176
+      "latency_ms": 11.628
     },
     {
       "id": "q019",
@@ -1074,7 +1074,7 @@
         "pep-0007::section::001::000",
         "pep-0343::section::015::000"
       ],
-      "latency_ms": 5.895
+      "latency_ms": 2.944
     },
     {
       "id": "q020",
@@ -1107,7 +1107,7 @@
         "pep-0720::section::000::000",
         "pep-0751::section::020::000"
       ],
-      "latency_ms": 8.363
+      "latency_ms": 7.088
     },
     {
       "id": "q021",
@@ -1140,7 +1140,7 @@
         "pep-0509::section::024::000",
         "pep-0299::section::006::000"
       ],
-      "latency_ms": 5.096
+      "latency_ms": 4.51
     },
     {
       "id": "q022",
@@ -1173,7 +1173,7 @@
         "pep-0358::section::000::000",
         "pep-0343::section::015::000"
       ],
-      "latency_ms": 5.996
+      "latency_ms": 8.539
     },
     {
       "id": "q023",
@@ -1206,7 +1206,7 @@
         "pep-0254::section::000::000",
         "pep-0013::section::022::000"
       ],
-      "latency_ms": 5.409
+      "latency_ms": 5.604
     },
     {
       "id": "q024",
@@ -1239,7 +1239,7 @@
         "pep-0687::section::000::000",
         "pep-0699::section::000::000"
       ],
-      "latency_ms": 5.843
+      "latency_ms": 3.013
     },
     {
       "id": "q025",
@@ -1272,7 +1272,7 @@
         "pep-0809::section::003::000",
         "pep-0346::section::001::000"
       ],
-      "latency_ms": 5.48
+      "latency_ms": 4.294
     },
     {
       "id": "q026",
@@ -1305,7 +1305,7 @@
         "pep-0798::section::020::001",
         "pep-3133::section::003::000"
       ],
-      "latency_ms": 6.926
+      "latency_ms": 8.097
     },
     {
       "id": "q027",
@@ -1338,7 +1338,7 @@
         "pep-0502::section::017::000",
         "pep-0750::section::052::000"
       ],
-      "latency_ms": 7.531
+      "latency_ms": 6.041
     },
     {
       "id": "q028",
@@ -1371,7 +1371,7 @@
         "pep-0453::section::001::000",
         "pep-0343::section::015::000"
       ],
-      "latency_ms": 5.301
+      "latency_ms": 3.238
     },
     {
       "id": "q029",
@@ -1404,7 +1404,7 @@
         "pep-0299::section::006::000",
         "pep-0453::section::001::000"
       ],
-      "latency_ms": 5.071
+      "latency_ms": 2.9
     },
     {
       "id": "q030",
@@ -1437,7 +1437,7 @@
         "pep-0380::section::001::000",
         "pep-0820::section::029::000"
       ],
-      "latency_ms": 5.199
+      "latency_ms": 5.24
     },
     {
       "id": "q031",
@@ -1470,7 +1470,7 @@
         "pep-0687::section::000::000",
         "pep-0699::section::000::000"
       ],
-      "latency_ms": 4.743
+      "latency_ms": 2.945
     },
     {
       "id": "q032",
@@ -1503,7 +1503,7 @@
         "pep-0318::section::015::000",
         "pep-0318::section::005::000"
       ],
-      "latency_ms": 5.138
+      "latency_ms": 3.786
     },
     {
       "id": "q033",
@@ -1536,7 +1536,7 @@
         "pep-0501::section::002::000",
         "pep-0501::section::033::000"
       ],
-      "latency_ms": 4.608
+      "latency_ms": 3.529
     },
     {
       "id": "q034",
@@ -1569,7 +1569,7 @@
         "pep-0376::section::001::000",
         "pep-0262::section::013::000"
       ],
-      "latency_ms": 5.459
+      "latency_ms": 3.944
     },
     {
       "id": "q035",
@@ -1602,7 +1602,7 @@
         "pep-0563::section::003::000",
         "pep-0563::section::004::000"
       ],
-      "latency_ms": 5.048
+      "latency_ms": 3.819
     },
     {
       "id": "q036",
@@ -1635,7 +1635,7 @@
         "pep-0604::section::009::000",
         "pep-0218::section::002::001"
       ],
-      "latency_ms": 5.596
+      "latency_ms": 7.583
     },
     {
       "id": "q037",
@@ -1668,7 +1668,7 @@
         "pep-0577::section::000::000",
         "pep-0203::section::001::000"
       ],
-      "latency_ms": 6.846
+      "latency_ms": 8.192
     },
     {
       "id": "q038",
@@ -1701,7 +1701,7 @@
         "pep-0762::section::003::000",
         "pep-0502::section::028::000"
       ],
-      "latency_ms": 10.17
+      "latency_ms": 8.609
     },
     {
       "id": "q039",
@@ -1734,7 +1734,7 @@
         "pep-0502::section::028::000",
         "pep-0611::section::013::000"
       ],
-      "latency_ms": 6.179
+      "latency_ms": 5.688
     },
     {
       "id": "q040",
@@ -1767,7 +1767,7 @@
         "pep-0584::section::008::000",
         "pep-0649::section::018::002"
       ],
-      "latency_ms": 9.417
+      "latency_ms": 12.861
     },
     {
       "id": "q041",
@@ -1800,7 +1800,7 @@
         "pep-0315::section::007::000",
         "pep-0786::section::015::000"
       ],
-      "latency_ms": 8.692
+      "latency_ms": 10.417
     },
     {
       "id": "q042",
@@ -1833,7 +1833,7 @@
         "pep-0346::section::042::000",
         "pep-0377::section::000::000"
       ],
-      "latency_ms": 7.541
+      "latency_ms": 9.054
     },
     {
       "id": "q043",
@@ -1866,7 +1866,7 @@
         "pep-0502::section::024::000",
         "pep-0498::section::003::000"
       ],
-      "latency_ms": 5.489
+      "latency_ms": 5.905
     },
     {
       "id": "q044",
@@ -1899,7 +1899,7 @@
         "pep-0649::section::006::000",
         "pep-0008::section::038::000"
       ],
-      "latency_ms": 8.248
+      "latency_ms": 12.209
     },
     {
       "id": "q045",
@@ -1932,7 +1932,7 @@
         "pep-0008::section::000::000",
         "pep-0732::section::013::000"
       ],
-      "latency_ms": 5.793
+      "latency_ms": 8.978
     },
     {
       "id": "q046",
@@ -1965,7 +1965,7 @@
         "pep-0479::section::007::001",
         "pep-0380::section::009::000"
       ],
-      "latency_ms": 11.712
+      "latency_ms": 6.74
     },
     {
       "id": "q047",
@@ -1998,7 +1998,7 @@
         "pep-0346::section::041::000",
         "pep-0296::section::000::000"
       ],
-      "latency_ms": 7.784
+      "latency_ms": 6.687
     },
     {
       "id": "q048",
@@ -2031,7 +2031,7 @@
         "pep-0852::section::000::000",
         "pep-0852::section::032::000"
       ],
-      "latency_ms": 5.519
+      "latency_ms": 7.816
     },
     {
       "id": "q049",
@@ -2064,7 +2064,7 @@
         "pep-0585::section::016::000",
         "pep-0764::section::017::000"
       ],
-      "latency_ms": 6.664
+      "latency_ms": 9.643
     },
     {
       "id": "q050",
@@ -2097,7 +2097,7 @@
         "pep-0444::section::003::000",
         "pep-3333::section::027::001"
       ],
-      "latency_ms": 5.146
+      "latency_ms": 6.078
     }
   ]
 }

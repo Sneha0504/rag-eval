@@ -10,13 +10,13 @@
   },
   "mrr": 0.6288,
   "latency_ms": {
-    "median": 4.976,
-    "p95": 7.865,
-    "mean": 20.389
+    "median": 7.347,
+    "p95": 19.177,
+    "mean": 32.966
   },
   "latency_note": "Per-query latency measures the Chroma similarity search only (it excludes query-embedding time); it is wall-clock and so varies slightly run-to-run, unlike the deterministic hit-rate/MRR.",
   "cost_usd_per_query": 0.0,
-  "cost_note": "Retrieval uses a local sentence-transformers model; no API cost per query. LLM answer/judge cost is reported separately and only when ANTHROPIC_API_KEY is set.",
+  "cost_note": "Retrieval uses a local sentence-transformers model; no API cost per query. LLM answer/judge cost is reported separately and only when an LLM API key is set (default provider: Gemini free tier, $0).",
   "misses": [
     {
       "id": "q002",
@@ -49,7 +49,7 @@
         "pep-0459::fixed::0000",
         "pep-0794::fixed::0009"
       ],
-      "latency_ms": 6.534
+      "latency_ms": 10.22
     },
     {
       "id": "q011",
@@ -82,7 +82,7 @@
         "pep-0606::fixed::0008",
         "pep-3111::fixed::0003"
       ],
-      "latency_ms": 4.673
+      "latency_ms": 9.183
     },
     {
       "id": "q013",
@@ -115,7 +115,7 @@
         "pep-0421::fixed::0000",
         "pep-0496::fixed::0000"
       ],
-      "latency_ms": 5.431
+      "latency_ms": 7.932
     },
     {
       "id": "q014",
@@ -148,7 +148,7 @@
         "pep-3152::fixed::0000",
         "pep-0380::fixed::0009"
       ],
-      "latency_ms": 7.169
+      "latency_ms": 14.879
     },
     {
       "id": "q023",
@@ -181,7 +181,7 @@
         "pep-0377::fixed::0005",
         "pep-0729::fixed::0006"
       ],
-      "latency_ms": 3.599
+      "latency_ms": 5.326
     },
     {
       "id": "q025",
@@ -214,7 +214,7 @@
         "pep-0377::fixed::0005",
         "pep-0828::fixed::0000"
       ],
-      "latency_ms": 3.441
+      "latency_ms": 4.981
     },
     {
       "id": "q028",
@@ -247,7 +247,7 @@
         "pep-0254::fixed::0000",
         "pep-0525::fixed::0011"
       ],
-      "latency_ms": 2.816
+      "latency_ms": 3.578
     },
     {
       "id": "q030",
@@ -280,7 +280,7 @@
         "pep-0479::fixed::0013",
         "pep-0566::fixed::0003"
       ],
-      "latency_ms": 3.532
+      "latency_ms": 3.842
     }
   ],
   "per_query": [
@@ -315,7 +315,7 @@
         "pep-0749::fixed::0001",
         "pep-0350::fixed::0000"
       ],
-      "latency_ms": 771.484
+      "latency_ms": 1251.924
     },
     {
       "id": "q002",
@@ -348,7 +348,7 @@
         "pep-0459::fixed::0000",
         "pep-0794::fixed::0009"
       ],
-      "latency_ms": 6.534
+      "latency_ms": 10.22
     },
     {
       "id": "q003",
@@ -381,7 +381,7 @@
         "pep-0560::fixed::0000",
         "pep-0593::fixed::0000"
       ],
-      "latency_ms": 6.894
+      "latency_ms": 19.696
     },
     {
       "id": "q004",
@@ -414,7 +414,7 @@
         "pep-0203::fixed::0004",
         "pep-0403::fixed::0004"
       ],
-      "latency_ms": 7.794
+      "latency_ms": 11.059
     },
     {
       "id": "q005",
@@ -447,7 +447,7 @@
         "pep-0748::fixed::0036",
         "pep-0001::fixed::0000"
       ],
-      "latency_ms": 5.175
+      "latency_ms": 7.52
     },
     {
       "id": "q006",
@@ -480,7 +480,7 @@
         "pep-0256::fixed::0001",
         "pep-0566::fixed::0003"
       ],
-      "latency_ms": 5.417
+      "latency_ms": 8.899
     },
     {
       "id": "q007",
@@ -513,7 +513,7 @@
         "pep-0343::fixed::0018",
         "pep-0749::fixed::0001"
       ],
-      "latency_ms": 6.439
+      "latency_ms": 12.24
     },
     {
       "id": "q008",
@@ -546,7 +546,7 @@
         "pep-0563::fixed::0001",
         "pep-0484::fixed::0043"
       ],
-      "latency_ms": 5.138
+      "latency_ms": 8.482
     },
     {
       "id": "q009",
@@ -579,7 +579,7 @@
         "pep-0554::fixed::0035",
         "pep-0484::fixed::0001"
       ],
-      "latency_ms": 6.96
+      "latency_ms": 14.892
     },
     {
       "id": "q010",
@@ -612,7 +612,7 @@
         "pep-0492::fixed::0026",
         "pep-0550::fixed::0029"
       ],
-      "latency_ms": 6.614
+      "latency_ms": 19.177
     },
     {
       "id": "q011",
@@ -645,7 +645,7 @@
         "pep-0606::fixed::0008",
         "pep-3111::fixed::0003"
       ],
-      "latency_ms": 4.673
+      "latency_ms": 9.183
     },
     {
       "id": "q012",
@@ -678,7 +678,7 @@
         "pep-0226::fixed::0000",
         "pep-0794::fixed::0009"
       ],
-      "latency_ms": 6.224
+      "latency_ms": 7.237
     },
     {
       "id": "q013",
@@ -711,7 +711,7 @@
         "pep-0421::fixed::0000",
         "pep-0496::fixed::0000"
       ],
-      "latency_ms": 5.431
+      "latency_ms": 7.932
     },
     {
       "id": "q014",
@@ -744,7 +744,7 @@
         "pep-3152::fixed::0000",
         "pep-0380::fixed::0009"
       ],
-      "latency_ms": 7.169
+      "latency_ms": 14.879
     },
     {
       "id": "q015",
@@ -777,7 +777,7 @@
         "pep-0333::fixed::0002",
         "pep-3333::fixed::0000"
       ],
-      "latency_ms": 6.103
+      "latency_ms": 7.772
     },
     {
       "id": "q016",
@@ -810,7 +810,7 @@
         "pep-0403::fixed::0000",
         "pep-0612::fixed::0000"
       ],
-      "latency_ms": 7.598
+      "latency_ms": 8.28
     },
     {
       "id": "q017",
@@ -843,7 +843,7 @@
         "pep-0544::fixed::0000",
         "pep-0245::fixed::0001"
       ],
-      "latency_ms": 5.801
+      "latency_ms": 10.913
     },
     {
       "id": "q018",
@@ -876,7 +876,7 @@
         "pep-0649::fixed::0009",
         "pep-0480::fixed::0003"
       ],
-      "latency_ms": 6.739
+      "latency_ms": 15.483
     },
     {
       "id": "q019",
@@ -909,7 +909,7 @@
         "pep-3104::fixed::0012",
         "pep-0008::fixed::0026"
       ],
-      "latency_ms": 4.46
+      "latency_ms": 6.801
     },
     {
       "id": "q020",
@@ -942,7 +942,7 @@
         "pep-0825::fixed::0027",
         "pep-0804::fixed::0031"
       ],
-      "latency_ms": 8.227
+      "latency_ms": 16.238
     },
     {
       "id": "q021",
@@ -975,7 +975,7 @@
         "pep-0585::fixed::0007",
         "pep-0829::fixed::0012"
       ],
-      "latency_ms": 3.225
+      "latency_ms": 5.253
     },
     {
       "id": "q022",
@@ -1008,7 +1008,7 @@
         "pep-0377::fixed::0005",
         "pep-0484::fixed::0048"
       ],
-      "latency_ms": 3.077
+      "latency_ms": 3.611
     },
     {
       "id": "q023",
@@ -1041,7 +1041,7 @@
         "pep-0377::fixed::0005",
         "pep-0729::fixed::0006"
       ],
-      "latency_ms": 3.599
+      "latency_ms": 5.326
     },
     {
       "id": "q024",
@@ -1107,7 +1107,7 @@
         "pep-0377::fixed::0005",
         "pep-0828::fixed::0000"
       ],
-      "latency_ms": 3.441
+      "latency_ms": 4.981
     },
     {
       "id": "q026",
@@ -1140,7 +1140,7 @@
         "pep-0828::fixed::0006",
         "pep-0642::fixed::0028"
       ],
-      "latency_ms": 5.111
+      "latency_ms": 9.299
     },
     {
       "id": "q027",
@@ -1173,7 +1173,7 @@
         "pep-0737::fixed::0007",
         "pep-0701::fixed::0000"
       ],
-      "latency_ms": 7.865
+      "latency_ms": 16.994
     },
     {
       "id": "q028",
@@ -1206,7 +1206,7 @@
         "pep-0254::fixed::0000",
         "pep-0525::fixed::0011"
       ],
-      "latency_ms": 2.816
+      "latency_ms": 3.578
     },
     {
       "id": "q029",
@@ -1239,7 +1239,7 @@
         "pep-0001::fixed::0016",
         "pep-0794::fixed::0009"
       ],
-      "latency_ms": 2.783
+      "latency_ms": 2.661
     },
     {
       "id": "q030",
@@ -1272,7 +1272,7 @@
         "pep-0479::fixed::0013",
         "pep-0566::fixed::0003"
       ],
-      "latency_ms": 3.532
+      "latency_ms": 3.842
     },
     {
       "id": "q031",
@@ -1305,7 +1305,7 @@
         "pep-0001::fixed::0000",
         "pep-0642::fixed::0002"
       ],
-      "latency_ms": 4.051
+      "latency_ms": 6.543
     },
     {
       "id": "q032",
@@ -1338,7 +1338,7 @@
         "pep-0318::fixed::0006",
         "pep-0318::fixed::0007"
       ],
-      "latency_ms": 3.085
+      "latency_ms": 3.476
     },
     {
       "id": "q033",
@@ -1371,7 +1371,7 @@
         "pep-0502::fixed::0000",
         "pep-0498::fixed::0000"
       ],
-      "latency_ms": 3.14
+      "latency_ms": 5.159
     },
     {
       "id": "q034",
@@ -1404,7 +1404,7 @@
         "pep-0665::fixed::0000",
         "pep-0516::fixed::0005"
       ],
-      "latency_ms": 4.485
+      "latency_ms": 6.737
     },
     {
       "id": "q035",
@@ -1437,7 +1437,7 @@
         "pep-0484::fixed::0043",
         "pep-0563::fixed::0000"
       ],
-      "latency_ms": 3.124
+      "latency_ms": 3.216
     },
     {
       "id": "q036",
@@ -1470,7 +1470,7 @@
         "pep-0483::fixed::0005",
         "pep-0827::fixed::0016"
       ],
-      "latency_ms": 4.393
+      "latency_ms": 8.965
     },
     {
       "id": "q037",
@@ -1503,7 +1503,7 @@
         "pep-0572::fixed::0014",
         "pep-0622::fixed::0017"
       ],
-      "latency_ms": 3.903
+      "latency_ms": 5.936
     },
     {
       "id": "q038",
@@ -1536,7 +1536,7 @@
         "pep-0008::fixed::0002",
         "pep-0257::fixed::0000"
       ],
-      "latency_ms": 4.841
+      "latency_ms": 4.569
     },
     {
       "id": "q039",
@@ -1569,7 +1569,7 @@
         "pep-0007::fixed::0000",
         "pep-0424::fixed::0000"
       ],
-      "latency_ms": 5.398
+      "latency_ms": 4.537
     },
     {
       "id": "q040",
@@ -1602,7 +1602,7 @@
         "pep-0583::fixed::0000",
         "pep-0020::fixed::0000"
       ],
-      "latency_ms": 7.083
+      "latency_ms": 9.799
     },
     {
       "id": "q041",
@@ -1635,7 +1635,7 @@
         "pep-0020::fixed::0000",
         "pep-3124::fixed::0006"
       ],
-      "latency_ms": 4.344
+      "latency_ms": 9.986
     },
     {
       "id": "q042",
@@ -1668,7 +1668,7 @@
         "pep-0343::fixed::0012",
         "pep-0567::fixed::0001"
       ],
-      "latency_ms": 5.612
+      "latency_ms": 8.569
     },
     {
       "id": "q043",
@@ -1701,7 +1701,7 @@
         "pep-0498::fixed::0004",
         "pep-0502::fixed::0000"
       ],
-      "latency_ms": 3.848
+      "latency_ms": 5.005
     },
     {
       "id": "q044",
@@ -1734,7 +1734,7 @@
         "pep-0339::fixed::0002",
         "pep-0749::fixed::0007"
       ],
-      "latency_ms": 4.159
+      "latency_ms": 7.011
     },
     {
       "id": "q045",
@@ -1767,7 +1767,7 @@
         "pep-0287::fixed::0016",
         "pep-0727::fixed::0014"
       ],
-      "latency_ms": 3.654
+      "latency_ms": 3.203
     },
     {
       "id": "q046",
@@ -1800,7 +1800,7 @@
         "pep-0380::fixed::0002",
         "pep-0798::fixed::0015"
       ],
-      "latency_ms": 5.396
+      "latency_ms": 7.457
     },
     {
       "id": "q047",
@@ -1833,7 +1833,7 @@
         "pep-0340::fixed::0000",
         "pep-0346::fixed::0001"
       ],
-      "latency_ms": 4.525
+      "latency_ms": 5.247
     },
     {
       "id": "q048",
@@ -1866,7 +1866,7 @@
         "pep-0492::fixed::0025",
         "pep-0550::fixed::0029"
       ],
-      "latency_ms": 4.715
+      "latency_ms": 3.508
     },
     {
       "id": "q049",
@@ -1899,7 +1899,7 @@
         "pep-0695::fixed::0001",
         "pep-0613::fixed::0000"
       ],
-      "latency_ms": 5.961
+      "latency_ms": 6.928
     },
     {
       "id": "q050",
@@ -1932,7 +1932,7 @@
         "pep-0444::fixed::0000",
         "pep-3333::fixed::0026"
       ],
-      "latency_ms": 3.822
+      "latency_ms": 4.494
     }
   ]
 }

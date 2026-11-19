@@ -1,7 +1,7 @@
-2026-11-18 13:16:46,311 INFO ingest | Found 748 candidate .rst files
-2026-11-18 13:16:46,670 WARNING ingest | ENCODING pep-0538: contains 25 literal U+FFFD replacement character(s) (valid UTF-8, but the glyph is embedded in the source)
-2026-11-18 13:16:47,097 WARNING ingest | ENCODING pep-3117: contains 2 literal U+FFFD replacement character(s) (valid UTF-8, but the glyph is embedded in the source)
-2026-11-18 13:16:47,157 INFO ingest | Parsed 748 documents
-2026-11-18 13:17:46,335 WARNING ingest | DQ[empty_chunk] pep-0210: body has 13 chars (< 40)
-2026-11-18 13:17:46,340 WARNING ingest | DQ[near_duplicate] pep-3134: shingle Jaccard 0.957 vs pep-0344 (>=0.85)
-2026-11-18 13:17:46,517 INFO ingest | Ingestion complete: 748 docs, 4 failures {'encoding': 2, 'empty_chunk': 1, 'near_duplicate': 1}
+2026-11-19 11:44:56,588 INFO ingest | Found 748 candidate .rst files
+2026-11-19 11:44:56,959 WARNING ingest | ENCODING pep-0538: contains 25 literal U+FFFD replacement character(s) (valid UTF-8, but the glyph is embedded in the source)
+2026-11-19 11:44:57,390 WARNING ingest | ENCODING pep-3117: contains 2 literal U+FFFD replacement character(s) (valid UTF-8, but the glyph is embedded in the source)
+2026-11-19 11:44:57,456 INFO ingest | Parsed 748 documents
+2026-11-19 11:45:56,196 WARNING ingest | DQ[empty_chunk] pep-0210: body has 13 chars (< 40)
+2026-11-19 11:45:56,197 WARNING ingest | DQ[near_duplicate] pep-3134: shingle Jaccard 0.957 vs pep-0344 (>=0.85)
+2026-11-19 11:45:56,627 INFO ingest | Ingestion complete: 748 docs, 4 failures {'encoding': 2, 'empty_chunk': 1, 'near_duplicate': 1}

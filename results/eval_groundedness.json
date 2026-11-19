@@ -1,7 +1,137 @@
 {
-  "generated_at": "2026-11-18T18:29:10.965633+00:00",
-  "status": "requires_api_key",
-  "message": "Groundedness (LLM-as-judge) and answer generation require ANTHROPIC_API_KEY. Set it and re-run: `.venv/bin/python -m src.judge`. No groundedness numbers are fabricated. The 20-row spot-check template was still written to results/spotcheck_template.csv for manual review.",
-  "model": "claude-haiku-5-5",
-  "sample_size": 20
+  "generated_at": "2026-11-19T18:46:52.712340+00:00",
+  "status": "ran",
+  "provider": "groq",
+  "free_tier": true,
+  "model": "openai/gpt-oss-20b",
+  "n_judged": 20,
+  "n_failed": 0,
+  "sample_size": 20,
+  "grounded_rate": 0.75,
+  "mean_groundedness_score": 0.7425,
+  "llm_cost_usd_total": 0.0,
+  "llm_cost_usd_per_query": 0.0,
+  "cost_note": "Provider 'groq' is a $0 free tier, so cost/query is $0 even though real token usage was recorded.",
+  "per_item": [
+    {
+      "id": "q001",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The context does not contain any information about the current status of PEP 8."
+    },
+    {
+      "id": "q002",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The context indeed contains no mention of the Zen of Python PEP."
+    },
+    {
+      "id": "q003",
+      "grounded": false,
+      "score": 0.0,
+      "reason": "The context actually states the PEP was accepted in 2023 and slated for implementation in Python 3.14."
+    },
+    {
+      "id": "q004",
+      "grounded": true,
+      "score": 0.95,
+      "reason": "Answer accurately reflects that the context lacks status info."
+    },
+    {
+      "id": "q005",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "Answer correctly states that the context does not mention PEP 1."
+    },
+    {
+      "id": "q006",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer accurately reflects that the provided context contains no status information for PEP 257."
+    },
+    {
+      "id": "q007",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer correctly states that no relevant information is present in the context."
+    },
+    {
+      "id": "q008",
+      "grounded": true,
+      "score": 0.9,
+      "reason": "The answer correctly states that the provided context does not include a status for PEP 585."
+    },
+    {
+      "id": "q009",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer accurately notes that the context contains no status information."
+    },
+    {
+      "id": "q010",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer correctly states that the context contains no status information for the PEP."
+    },
+    {
+      "id": "q011",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The context contains no mention of the PEP’s status, so the answer accurately reflects that."
+    },
+    {
+      "id": "q012",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The context provides no status information for the PEP."
+    },
+    {
+      "id": "q013",
+      "grounded": false,
+      "score": 0.0,
+      "reason": "No answer claims are provided to verify against the context"
+    },
+    {
+      "id": "q014",
+      "grounded": false,
+      "score": 0.0,
+      "reason": "The context includes PEP 342, so the answer’s claim that the context lacks the answer is unsupported."
+    },
+    {
+      "id": "q015",
+      "grounded": false,
+      "score": 0.0,
+      "reason": "The answer contains no claims to evaluate."
+    },
+    {
+      "id": "q016",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer accurately notes that the context lacks a PEP type statement."
+    },
+    {
+      "id": "q017",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "Answer cites PEP 544 as per context."
+    },
+    {
+      "id": "q018",
+      "grounded": false,
+      "score": 0.0,
+      "reason": "No support in context for PEP 825 covering that topic."
+    },
+    {
+      "id": "q019",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer asserts that the context lacks the answer, which is supported by the absence of that information in the provided context."
+    },
+    {
+      "id": "q020",
+      "grounded": true,
+      "score": 1.0,
+      "reason": "The answer cites PEP 517, which is exactly the PEP defining the build‑system independent source tree format as shown in the context."
+    }
+  ]
 }

@@ -80,7 +80,7 @@ if groundedness and groundedness.get("status") == "ran":
     c2.metric("Mean score", groundedness["mean_groundedness_score"])
     c3.metric("LLM cost/query ($)", groundedness["llm_cost_usd_per_query"])
 else:
-    st.info((groundedness or {}).get("message", "Groundedness requires ANTHROPIC_API_KEY."))
+    st.info((groundedness or {}).get("message", "Groundedness requires an LLM API key (default provider: Gemini free tier, GEMINI_API_KEY)."))
 
 # ---- Per-query detail ----------------------------------------------------
 st.header("Per-query retrieval detail")

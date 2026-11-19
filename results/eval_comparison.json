@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T18:55:27.468335+00:00",
+  "generated_at": "2026-11-19T16:56:06.668602+00:00",
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
   "seed": 42,
   "k_values": [
@@ -18,9 +18,9 @@
       },
       "mrr": 0.6288,
       "latency_ms": {
-        "median": 4.976,
-        "p95": 7.865,
-        "mean": 20.389
+        "median": 7.347,
+        "p95": 19.177,
+        "mean": 32.966
       },
       "cost_usd_per_query": 0.0,
       "n_misses": 8
@@ -34,13 +34,13 @@
       },
       "mrr": 0.5136,
       "latency_ms": {
-        "median": 6.451,
-        "p95": 10.17,
-        "mean": 11.266
+        "median": 7.545,
+        "p95": 12.209,
+        "mean": 11.052
       },
       "cost_usd_per_query": 0.0,
       "n_misses": 13
     }
   },
-  "verdict": "Winner: fixed chunking. It scores MRR 0.6288 vs 0.5136 and hit_rate@5 0.74 vs 0.7. Median Chroma-search latency 4.976 ms vs 6.451 ms. Why: section-aware chunking indexed 15119 chunks but its data quality is weaker -- 844 exact-duplicate and 112 empty chunks were flagged (empties dropped before indexing); many remaining chunks are tiny header-only fragments (Abstract, Copyright, References) that dilute the top-k and split a PEP's content across many small vectors. Fixed-size chunking indexed 8301 denser 2000-char windows (0 duplicate, 1 empty), so each chunk carries more context and matches the question topic more reliably -- hence the higher MRR and hit@k."
+  "verdict": "Winner: fixed chunking. It scores MRR 0.6288 vs 0.5136 and hit_rate@5 0.74 vs 0.7. Median Chroma-search latency 7.347 ms vs 7.545 ms. Why: section-aware chunking indexed 15119 chunks but its data quality is weaker -- 844 exact-duplicate and 112 empty chunks were flagged (empties dropped before indexing); many remaining chunks are tiny header-only fragments (Abstract, Copyright, References) that dilute the top-k and split a PEP's content across many small vectors. Fixed-size chunking indexed 8301 denser 2000-char windows (0 duplicate, 1 empty), so each chunk carries more context and matches the question topic more reliably -- hence the higher MRR and hit@k."
 }

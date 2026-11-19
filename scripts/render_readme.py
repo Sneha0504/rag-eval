@@ -85,24 +85,53 @@ def main() -> None:
     # Groundedness block
     if groundedness.get("status") == "ran":
         g = groundedness
+        provider = g.get("provider", "the configured provider")
+        free_note = (
+            " (free tier -- $0 cost, real token usage still recorded)"
+            if g.get("free_tier") else ""
+        )
         ground_block = (
             f"The LLM-as-judge ran on {g['n_judged']} generated answers using "
-            f"`{g['model']}`.\n\n"
+            f"`{g['model']}` via provider `{provider}`{free_note}.\n\n"
             f"- Grounded rate: **{g['grounded_rate']}**\n"
             f"- Mean groundedness score: **{g['mean_groundedness_score']}**\n"
             f"- LLM cost/query: **${g['llm_cost_usd_per_query']}** "
             f"(total ${g['llm_cost_usd_total']})\n"
         )
-    else:
+        if g.get("n_failed"):
+            ground_block += (
+                f"\n_{g['n_failed']} of {g.get('sample_size', g['n_judged'] + g['n_failed'])} "
+                f"items were skipped after repeated transient provider errors "
+                f"(e.g. 429/503); the rates above are over the "
+                f"{g['n_judged']} that succeeded._\n"
+            )
+    elif groundedness.get("status") == "error":
+        g = groundedness
         ground_block = (
-            "**Status: requires `ANTHROPIC_API_KEY`.** Answer generation and the "
-            "groundedness judge were not run in this build because no key was "
-            "present, so no groundedness or cost numbers are reported here (none "
-            "are fabricated). The 20-row manual spot-check template was still "
-            "generated at `results/spotcheck_template.csv`.\n\n"
-            "To produce real numbers:\n\n"
-            "```bash\nexport ANTHROPIC_API_KEY=sk-ant-...\n"
-            ".venv/bin/python -m src.judge\n```\n"
+            f"**Status: the LLM judge could not complete.** A key was set, but all "
+            f"{g.get('n_failed', 0)} calls to provider `{g.get('provider')}` "
+            f"(`{g.get('model', config.LLM_MODEL)}`) failed after retries with "
+            f"transient errors (e.g. 429/503 on the free tier). No groundedness or "
+            f"cost numbers are reported here (none are fabricated). The 20-row "
+            f"manual spot-check template was still generated at "
+            f"`results/spotcheck_template.csv`. Re-run when the provider is "
+            f"available:\n\n```bash\n.venv/bin/python -m src.judge\n```\n"
+        )
+    else:
+        key_hint = config.api_key_env_hint()
+        ground_block = (
+            f"**Status: requires an LLM API key (`{key_hint}`).** Answer "
+            f"generation and the groundedness judge were not run in this build "
+            f"because no key was present, so no groundedness or cost numbers are "
+            f"reported here (none are fabricated). The 20-row manual spot-check "
+            f"template was still generated at `results/spotcheck_template.csv`.\n\n"
+            f"The default provider is **Google Gemini's free tier** (OpenAI-"
+            f"compatible endpoint, `{config.LLM_MODEL}`, $0 cost). To produce real "
+            f"numbers for free:\n\n"
+            f"```bash\nexport GEMINI_API_KEY=...   # free key from Google AI Studio\n"
+            f".venv/bin/python -m src.judge\n```\n\n"
+            f"Other providers are selectable with `LLM_PROVIDER` (`gemini` "
+            f"default, `groq`, `anthropic`, `openai`, `custom`); see **How to run**.\n"
         )
 
     verdict = comparison["verdict"]
@@ -154,7 +183,7 @@ data/processed/documents.json  +  results/ingestion_report.json (+ ingestion.log
    ▼                     per strategy, cosine space, deterministic order)
 Chroma persistent store (data/chroma/)
    │  src/retrieve.py    top-k similarity + metadata filtering (status/type/PEP)
-   │  src/generate.py    cited answer via Anthropic API (key-gated)
+   │  src/generate.py    cited answer via a pluggable LLM provider (key-gated)
    ▼
    │  src/evaluate.py    hit@k, MRR, latency, cost over data/golden_set.json
    │  src/judge.py       LLM-as-judge groundedness + 20-row spot-check (key-gated)
@@ -177,8 +206,10 @@ results/*.json  +  app/streamlit_app.py (dashboard)
 - **Embeddings = `{config.EMBED_MODEL_NAME}`.** Small, fast, reliable, 384-dim,
   CPU-friendly. Embeddings are L2-normalised and stored in Chroma with cosine space.
 - **Offline-honest.** Retrieval metrics (hit@k, MRR, latency) run fully offline.
-  Answer generation and groundedness use the Anthropic API only when a key is
-  present and degrade gracefully otherwise, so no README figure is fabricated.
+  Answer generation and groundedness call a pluggable LLM provider (default:
+  Google Gemini's **free** tier via its OpenAI-compatible endpoint; Anthropic
+  and other OpenAI-compatible back ends are selectable) only when a key is
+  present, and degrade gracefully otherwise, so no README figure is fabricated.
 - **Determinism.** Fixed seed (`{config.SEED}`) in `config.py`, chunks sorted by a
   stable `chunk_id` before indexing, all dependencies pinned in `requirements.txt`.
 
@@ -259,9 +290,35 @@ make ingest       # parse + clean + data-quality report
 make golden       # (re)build the verified golden set
 make index        # chunk (both strategies) + embed + index in Chroma
 make evaluate     # retrieval metrics for both strategies
-make judge        # groundedness + spot-check (needs ANTHROPIC_API_KEY)
+make judge        # groundedness + spot-check (needs an LLM API key)
 make dashboard    # launch the Streamlit dashboard
 ```
+
+### LLM provider for answer generation + groundedness
+
+Generation and the judge use a pluggable provider, selected with env vars. The
+default is **Google Gemini's free tier** (OpenAI-compatible endpoint), so a full
+keyed run costs **$0**:
+
+```bash
+export GEMINI_API_KEY=...        # free key from Google AI Studio
+./run.sh                         # or: .venv/bin/python -m src.judge
+```
+
+| env var | purpose | default |
+| --- | --- | --- |
+| `LLM_PROVIDER` | `gemini`, `anthropic`, `openai`, or `custom` | `gemini` |
+| `GEMINI_API_KEY` | key for the default Gemini free tier | (unset) |
+| `ANTHROPIC_API_KEY` | key when `LLM_PROVIDER=anthropic` | (unset) |
+| `OPENAI_API_KEY` | key when `LLM_PROVIDER=openai` | (unset) |
+| `LLM_API_KEY` | generic key override (any provider) | (unset) |
+| `LLM_MODEL` | override the model | per provider |
+| `LLM_BASE_URL` | override the OpenAI-compatible endpoint | per provider |
+| `LLM_PRICE_INPUT_PER_MTOK` / `LLM_PRICE_OUTPUT_PER_MTOK` | price (USD / 1M tokens) for real cost | per provider |
+
+Gemini's free tier is priced at $0, so cost/query is reported as $0 while the
+real token usage returned by the API is still recorded. To keep the original
+Anthropic path: `export LLM_PROVIDER=anthropic ANTHROPIC_API_KEY=sk-ant-...`.
 
 Dashboard: `.venv/bin/streamlit run app/streamlit_app.py` -- shows the strategy
 comparison, DQ findings, per-query detail, and query volume/latency over time
@@ -277,7 +334,8 @@ src/ingest.py             parse + clean + metadata + data-quality checks
 src/chunking.py           fixed + section-aware chunking
 src/embed_index.py        embeddings -> Chroma (one collection per strategy)
 src/retrieve.py           top-k search + metadata filtering
-src/generate.py           cited answer generator (Anthropic, key-gated)
+src/generate.py           cited answer generator (pluggable LLM, key-gated)
+src/llm_client.py         provider-agnostic LLM call layer (Gemini/Anthropic/OpenAI)
 src/evaluate.py           hit@k, MRR, latency, cost + strategy comparison
 src/judge.py              LLM-as-judge groundedness + spot-check template
 src/monitor.py            per-query JSONL logging
@@ -298,8 +356,9 @@ results/                  real run outputs (committed)
   larger models; absolute hit rates would likely rise with a stronger encoder.
 - **Golden set is metadata- and content-anchored.** Questions reference real PEP
   topics; a different question distribution could shift the numbers.
-- **Groundedness needs a key.** Without `ANTHROPIC_API_KEY`, generation and the
-  judge are skipped (clearly marked), not estimated.
+- **Groundedness needs a key.** Without an LLM API key (default provider:
+  Gemini's free tier via `GEMINI_API_KEY`), generation and the judge are skipped
+  (clearly marked), not estimated.
 - **Near-duplicate detection is O(n^2)** over shingle sets; fine for ~750 docs,
   not for very large corpora.
 
