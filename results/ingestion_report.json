@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-11-18T18:17:46.515373+00:00",
+  "corpus_source_url": "https://github.com/python/peps",
+  "corpus_license": "Public domain (per PEP 1)",
+  "files_found": 748,
+  "documents_parsed": 748,
+  "total_sections": 14787,
+  "failures_by_check": {
+    "encoding": 2,
+    "empty_chunk": 1,
+    "near_duplicate": 1
+  },
+  "total_failures": 4,
+  "failures": [
+    {
+      "doc_id": "pep-0538",
+      "check": "encoding",
+      "cause": "contains 25 literal U+FFFD replacement character(s) (valid UTF-8, but the glyph is embedded in the source)"
+    },
+    {
+      "doc_id": "pep-3117",
+      "check": "encoding",
+      "cause": "contains 2 literal U+FFFD replacement character(s) (valid UTF-8, but the glyph is embedded in the source)"
+    },
+    {
+      "doc_id": "pep-0210",
+      "check": "empty_chunk",
+      "cause": "body has 13 chars (< 40)"
+    },
+    {
+      "doc_id": "pep-3134",
+      "check": "near_duplicate",
+      "cause": "shingle Jaccard 0.957 vs pep-0344 (>=0.85)"
+    }
+  ]
+}

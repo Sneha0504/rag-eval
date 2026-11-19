@@ -1,0 +1,624 @@
+{
+  "description": "50 question/answer pairs derived from real PEP content. gold_pep/gold_doc_id is the source document; gold_section the source section where applicable. Every fact verified against the corpus at build time.",
+  "corpus_source_url": "https://github.com/python/peps",
+  "n_items": 50,
+  "category_distribution": {
+    "status": 12,
+    "type": 8,
+    "author": 8,
+    "created": 7,
+    "content": 15
+  },
+  "items": [
+    {
+      "id": "q001",
+      "question": "What is the current status of the PEP that defines the style guide for Python code?",
+      "category": "status",
+      "gold_pep": 8,
+      "gold_doc_id": "pep-0008",
+      "gold_section": "",
+      "gold_answer": "Active",
+      "gold_answer_phrases": [
+        "style guide"
+      ]
+    },
+    {
+      "id": "q002",
+      "question": "Is the Zen of Python PEP active, final, or withdrawn?",
+      "category": "status",
+      "gold_pep": 20,
+      "gold_doc_id": "pep-0020",
+      "gold_section": "",
+      "gold_answer": "Active",
+      "gold_answer_phrases": [
+        "Beautiful is better than ugly"
+      ]
+    },
+    {
+      "id": "q003",
+      "question": "What is the status of the Type Hints PEP?",
+      "category": "status",
+      "gold_pep": 484,
+      "gold_doc_id": "pep-0484",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "type hints"
+      ]
+    },
+    {
+      "id": "q004",
+      "question": "What is the status of the PEP introducing assignment expressions (the walrus operator)?",
+      "category": "status",
+      "gold_pep": 572,
+      "gold_doc_id": "pep-0572",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "assignment expression"
+      ]
+    },
+    {
+      "id": "q005",
+      "question": "What is the status of the PEP describing PEP purpose and guidelines?",
+      "category": "status",
+      "gold_pep": 1,
+      "gold_doc_id": "pep-0001",
+      "gold_section": "",
+      "gold_answer": "Active",
+      "gold_answer_phrases": [
+        "PEP"
+      ]
+    },
+    {
+      "id": "q006",
+      "question": "What is the status of the Docstring Conventions PEP?",
+      "category": "status",
+      "gold_pep": 257,
+      "gold_doc_id": "pep-0257",
+      "gold_section": "",
+      "gold_answer": "Active",
+      "gold_answer_phrases": [
+        "docstring"
+      ]
+    },
+    {
+      "id": "q007",
+      "question": "What is the status of the PEP that introduced the with statement?",
+      "category": "status",
+      "gold_pep": 343,
+      "gold_doc_id": "pep-0343",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "with statement"
+      ]
+    },
+    {
+      "id": "q008",
+      "question": "What is the status of the PEP for type hinting generics in standard collections?",
+      "category": "status",
+      "gold_pep": 585,
+      "gold_doc_id": "pep-0585",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "generic"
+      ]
+    },
+    {
+      "id": "q009",
+      "question": "What is the status of the PEP allowing union types written with the pipe operator?",
+      "category": "status",
+      "gold_pep": 604,
+      "gold_doc_id": "pep-0604",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "union"
+      ]
+    },
+    {
+      "id": "q010",
+      "question": "What is the status of the PEP adding async and await coroutine syntax?",
+      "category": "status",
+      "gold_pep": 492,
+      "gold_doc_id": "pep-0492",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "coroutine"
+      ]
+    },
+    {
+      "id": "q011",
+      "question": "What is the status of the Python Language Governance PEP?",
+      "category": "status",
+      "gold_pep": 13,
+      "gold_doc_id": "pep-0013",
+      "gold_section": "",
+      "gold_answer": "Active",
+      "gold_answer_phrases": [
+        "governance"
+      ]
+    },
+    {
+      "id": "q012",
+      "question": "What is the status of the Python Database API Specification v2.0 PEP?",
+      "category": "status",
+      "gold_pep": 249,
+      "gold_doc_id": "pep-0249",
+      "gold_section": "",
+      "gold_answer": "Final",
+      "gold_answer_phrases": [
+        "database"
+      ]
+    },
+    {
+      "id": "q013",
+      "question": "What PEP type is the Zen of Python classified as?",
+      "category": "type",
+      "gold_pep": 20,
+      "gold_doc_id": "pep-0020",
+      "gold_section": "",
+      "gold_answer": "Informational",
+      "gold_answer_phrases": [
+        "Zen of Python"
+      ]
+    },
+    {
+      "id": "q014",
+      "question": "What is the PEP type of the Simple Generators proposal?",
+      "category": "type",
+      "gold_pep": 255,
+      "gold_doc_id": "pep-0255",
+      "gold_section": "",
+      "gold_answer": "Standards Track",
+      "gold_answer_phrases": [
+        "generator"
+      ]
+    },
+    {
+      "id": "q015",
+      "question": "What PEP type is the Python Web Server Gateway Interface (WSGI) specification?",
+      "category": "type",
+      "gold_pep": 3333,
+      "gold_doc_id": "pep-3333",
+      "gold_section": "",
+      "gold_answer": "Informational",
+      "gold_answer_phrases": [
+        "WSGI"
+      ]
+    },
+    {
+      "id": "q016",
+      "question": "What PEP type is the proposal for decorators for functions and methods?",
+      "category": "type",
+      "gold_pep": 318,
+      "gold_doc_id": "pep-0318",
+      "gold_section": "",
+      "gold_answer": "Standards Track",
+      "gold_answer_phrases": [
+        "decorator"
+      ]
+    },
+    {
+      "id": "q017",
+      "question": "What is the PEP type of the Protocols structural subtyping proposal?",
+      "category": "type",
+      "gold_pep": 544,
+      "gold_doc_id": "pep-0544",
+      "gold_section": "",
+      "gold_answer": "Standards Track",
+      "gold_answer_phrases": [
+        "Protocol"
+      ]
+    },
+    {
+      "id": "q018",
+      "question": "What PEP type covers distributing and packaging type information?",
+      "category": "type",
+      "gold_pep": 561,
+      "gold_doc_id": "pep-0561",
+      "gold_section": "",
+      "gold_answer": "Standards Track",
+      "gold_answer_phrases": [
+        "type information"
+      ]
+    },
+    {
+      "id": "q019",
+      "question": "What PEP type is the Style Guide for Python Code?",
+      "category": "type",
+      "gold_pep": 8,
+      "gold_doc_id": "pep-0008",
+      "gold_section": "",
+      "gold_answer": "Process",
+      "gold_answer_phrases": [
+        "style guide"
+      ]
+    },
+    {
+      "id": "q020",
+      "question": "What PEP type is the build-system independent format for source trees?",
+      "category": "type",
+      "gold_pep": 517,
+      "gold_doc_id": "pep-0517",
+      "gold_section": "",
+      "gold_answer": "Standards Track",
+      "gold_answer_phrases": [
+        "build"
+      ]
+    },
+    {
+      "id": "q021",
+      "question": "Who authored the Style Guide for Python Code PEP?",
+      "category": "author",
+      "gold_pep": 8,
+      "gold_doc_id": "pep-0008",
+      "gold_section": "",
+      "gold_answer": "Guido van Rossum <guido@python.org>, Barry Warsaw <barry@python.org>, Alyssa Coghlan <ncoghlan@gmail.com>",
+      "gold_answer_phrases": [
+        "Guido"
+      ]
+    },
+    {
+      "id": "q022",
+      "question": "Who are the authors of the assignment expressions (walrus operator) PEP?",
+      "category": "author",
+      "gold_pep": 572,
+      "gold_doc_id": "pep-0572",
+      "gold_section": "",
+      "gold_answer": "Chris Angelico <rosuav@gmail.com>, Tim Peters <tim.peters@gmail.com>, Guido van Rossum <guido@python.org>",
+      "gold_answer_phrases": [
+        "assignment expression"
+      ]
+    },
+    {
+      "id": "q023",
+      "question": "Who authored the Type Hints PEP?",
+      "category": "author",
+      "gold_pep": 484,
+      "gold_doc_id": "pep-0484",
+      "gold_section": "",
+      "gold_answer": "Guido van Rossum <guido@python.org>, Jukka Lehtosalo <jukka.lehtosalo@iki.fi>, Łukasz Langa <lukasz@python.org>",
+      "gold_answer_phrases": [
+        "type hints"
+      ]
+    },
+    {
+      "id": "q024",
+      "question": "Who wrote the PEP introducing the with statement?",
+      "category": "author",
+      "gold_pep": 343,
+      "gold_doc_id": "pep-0343",
+      "gold_section": "",
+      "gold_answer": "Guido van Rossum, Alyssa Coghlan",
+      "gold_answer_phrases": [
+        "with statement"
+      ]
+    },
+    {
+      "id": "q025",
+      "question": "Who is the author of the Generator Expressions PEP?",
+      "category": "author",
+      "gold_pep": 289,
+      "gold_doc_id": "pep-0289",
+      "gold_section": "",
+      "gold_answer": "Raymond Hettinger <python@rcn.com>",
+      "gold_answer_phrases": [
+        "generator expression"
+      ]
+    },
+    {
+      "id": "q026",
+      "question": "Who wrote the PEP for syntax delegating to a subgenerator (yield from)?",
+      "category": "author",
+      "gold_pep": 380,
+      "gold_doc_id": "pep-0380",
+      "gold_section": "",
+      "gold_answer": "Gregory Ewing <greg.ewing@canterbury.ac.nz>",
+      "gold_answer_phrases": [
+        "yield from"
+      ]
+    },
+    {
+      "id": "q027",
+      "question": "Who authored the PEP for literal string interpolation (f-strings)?",
+      "category": "author",
+      "gold_pep": 498,
+      "gold_doc_id": "pep-0498",
+      "gold_section": "",
+      "gold_answer": "Eric V. Smith <eric@trueblade.com>",
+      "gold_answer_phrases": [
+        "f-string"
+      ]
+    },
+    {
+      "id": "q028",
+      "question": "Who is the author of the Zen of Python PEP?",
+      "category": "author",
+      "gold_pep": 20,
+      "gold_doc_id": "pep-0020",
+      "gold_section": "",
+      "gold_answer": "Tim Peters <tim.peters@gmail.com>",
+      "gold_answer_phrases": [
+        "Zen"
+      ]
+    },
+    {
+      "id": "q029",
+      "question": "When was the Style Guide for Python Code PEP created?",
+      "category": "created",
+      "gold_pep": 8,
+      "gold_doc_id": "pep-0008",
+      "gold_section": "",
+      "gold_answer": "05-Jul-2001",
+      "gold_answer_phrases": [
+        "style guide"
+      ]
+    },
+    {
+      "id": "q030",
+      "question": "When was the Zen of Python PEP created?",
+      "category": "created",
+      "gold_pep": 20,
+      "gold_doc_id": "pep-0020",
+      "gold_section": "",
+      "gold_answer": "19-Aug-2004",
+      "gold_answer_phrases": [
+        "Zen of Python"
+      ]
+    },
+    {
+      "id": "q031",
+      "question": "When was the Docstring Conventions PEP created?",
+      "category": "created",
+      "gold_pep": 257,
+      "gold_doc_id": "pep-0257",
+      "gold_section": "",
+      "gold_answer": "29-May-2001",
+      "gold_answer_phrases": [
+        "docstring"
+      ]
+    },
+    {
+      "id": "q032",
+      "question": "On what date was the decorators for functions and methods PEP created?",
+      "category": "created",
+      "gold_pep": 318,
+      "gold_doc_id": "pep-0318",
+      "gold_section": "",
+      "gold_answer": "05-Jun-2003",
+      "gold_answer_phrases": [
+        "decorator"
+      ]
+    },
+    {
+      "id": "q033",
+      "question": "When was the f-strings (literal string interpolation) PEP created?",
+      "category": "created",
+      "gold_pep": 498,
+      "gold_doc_id": "pep-0498",
+      "gold_section": "",
+      "gold_answer": "01-Aug-2015",
+      "gold_answer_phrases": [
+        "f-string"
+      ]
+    },
+    {
+      "id": "q034",
+      "question": "When was the build-system independent source tree format PEP created?",
+      "category": "created",
+      "gold_pep": 517,
+      "gold_doc_id": "pep-0517",
+      "gold_section": "",
+      "gold_answer": "30-Sep-2015",
+      "gold_answer_phrases": [
+        "pyproject"
+      ]
+    },
+    {
+      "id": "q035",
+      "question": "When was the Type Hints PEP created?",
+      "category": "created",
+      "gold_pep": 484,
+      "gold_doc_id": "pep-0484",
+      "gold_section": "",
+      "gold_answer": "29-Sep-2014",
+      "gold_answer_phrases": [
+        "type hint"
+      ]
+    },
+    {
+      "id": "q036",
+      "question": "How can you write a union type using the vertical bar operator instead of typing.Union?",
+      "category": "content",
+      "gold_pep": 604,
+      "gold_doc_id": "pep-0604",
+      "gold_section": "Specification",
+      "gold_answer": "int | str; Union",
+      "gold_answer_phrases": [
+        "int | str",
+        "Union"
+      ]
+    },
+    {
+      "id": "q037",
+      "question": "What operator does the walrus assignment expression use to assign within an expression?",
+      "category": "content",
+      "gold_pep": 572,
+      "gold_doc_id": "pep-0572",
+      "gold_section": "Abstract",
+      "gold_answer": ":=",
+      "gold_answer_phrases": [
+        ":="
+      ]
+    },
+    {
+      "id": "q038",
+      "question": "How many spaces of indentation does the Python style guide recommend per level?",
+      "category": "content",
+      "gold_pep": 8,
+      "gold_doc_id": "pep-0008",
+      "gold_section": "Code Lay-out",
+      "gold_answer": "4 spaces; indentation",
+      "gold_answer_phrases": [
+        "4 spaces",
+        "indentation"
+      ]
+    },
+    {
+      "id": "q039",
+      "question": "What is the recommended maximum line length in the Python style guide?",
+      "category": "content",
+      "gold_pep": 8,
+      "gold_doc_id": "pep-0008",
+      "gold_section": "Maximum Line Length",
+      "gold_answer": "79 characters",
+      "gold_answer_phrases": [
+        "79 characters"
+      ]
+    },
+    {
+      "id": "q040",
+      "question": "According to the Zen of Python, what is better than implicit?",
+      "category": "content",
+      "gold_pep": 20,
+      "gold_doc_id": "pep-0020",
+      "gold_section": "",
+      "gold_answer": "Explicit is better than implicit",
+      "gold_answer_phrases": [
+        "Explicit is better than implicit"
+      ]
+    },
+    {
+      "id": "q041",
+      "question": "According to the Zen of Python, what should there preferably be one obvious way to do?",
+      "category": "content",
+      "gold_pep": 20,
+      "gold_doc_id": "pep-0020",
+      "gold_section": "",
+      "gold_answer": "one-- and preferably only one --obvious way",
+      "gold_answer_phrases": [
+        "one-- and preferably only one --obvious way"
+      ]
+    },
+    {
+      "id": "q042",
+      "question": "What pair of methods must a context manager object implement for the with statement?",
+      "category": "content",
+      "gold_pep": 343,
+      "gold_doc_id": "pep-0343",
+      "gold_section": "",
+      "gold_answer": "__enter__; __exit__",
+      "gold_answer_phrases": [
+        "__enter__",
+        "__exit__"
+      ]
+    },
+    {
+      "id": "q043",
+      "question": "What character prefix introduces a formatted string literal (f-string)?",
+      "category": "content",
+      "gold_pep": 498,
+      "gold_doc_id": "pep-0498",
+      "gold_section": "Abstract",
+      "gold_answer": "f-string; f'",
+      "gold_answer_phrases": [
+        "f-string",
+        "f'"
+      ]
+    },
+    {
+      "id": "q044",
+      "question": "What syntax does PEP 484 use to annotate the types of function arguments and return values?",
+      "category": "content",
+      "gold_pep": 484,
+      "gold_doc_id": "pep-0484",
+      "gold_section": "Abstract",
+      "gold_answer": "type hints; annotation",
+      "gold_answer_phrases": [
+        "type hints",
+        "annotation"
+      ]
+    },
+    {
+      "id": "q045",
+      "question": "What kind of quotes does the docstring conventions PEP recommend for docstrings?",
+      "category": "content",
+      "gold_pep": 257,
+      "gold_doc_id": "pep-0257",
+      "gold_section": "",
+      "gold_answer": "\"\"\"; docstring",
+      "gold_answer_phrases": [
+        "\"\"\"",
+        "docstring"
+      ]
+    },
+    {
+      "id": "q046",
+      "question": "What keyword does a generator function use to produce successive values?",
+      "category": "content",
+      "gold_pep": 255,
+      "gold_doc_id": "pep-0255",
+      "gold_section": "",
+      "gold_answer": "yield",
+      "gold_answer_phrases": [
+        "yield"
+      ]
+    },
+    {
+      "id": "q047",
+      "question": "What new expression does PEP 380 add for delegating to a subgenerator?",
+      "category": "content",
+      "gold_pep": 380,
+      "gold_doc_id": "pep-0380",
+      "gold_section": "",
+      "gold_answer": "yield from",
+      "gold_answer_phrases": [
+        "yield from"
+      ]
+    },
+    {
+      "id": "q048",
+      "question": "What two keywords does PEP 492 add to declare and await coroutines?",
+      "category": "content",
+      "gold_pep": 492,
+      "gold_doc_id": "pep-0492",
+      "gold_section": "",
+      "gold_answer": "async; await",
+      "gold_answer_phrases": [
+        "async",
+        "await"
+      ]
+    },
+    {
+      "id": "q049",
+      "question": "What does PEP 585 let you use in place of typing.List and typing.Dict for generics?",
+      "category": "content",
+      "gold_pep": 585,
+      "gold_doc_id": "pep-0585",
+      "gold_section": "",
+      "gold_answer": "list[; dict[",
+      "gold_answer_phrases": [
+        "list[",
+        "dict["
+      ]
+    },
+    {
+      "id": "q050",
+      "question": "What callable interface does WSGI define between web servers and Python applications?",
+      "category": "content",
+      "gold_pep": 3333,
+      "gold_doc_id": "pep-3333",
+      "gold_section": "",
+      "gold_answer": "application; environ; start_response",
+      "gold_answer_phrases": [
+        "application",
+        "environ",
+        "start_response"
+      ]
+    }
+  ]
+}

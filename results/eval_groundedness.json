@@ -1,0 +1,7 @@
+{
+  "generated_at": "2026-11-18T18:29:10.965633+00:00",
+  "status": "requires_api_key",
+  "message": "Groundedness (LLM-as-judge) and answer generation require ANTHROPIC_API_KEY. Set it and re-run: `.venv/bin/python -m src.judge`. No groundedness numbers are fabricated. The 20-row spot-check template was still written to results/spotcheck_template.csv for manual review.",
+  "model": "claude-haiku-5-5",
+  "sample_size": 20
+}
